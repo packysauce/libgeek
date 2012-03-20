@@ -4,7 +4,7 @@ IMAGEDIR=$LIBGEEK/share/circle-percent-images
 IMAGEEXT=.png
 CURDIR=/tmp
 
-updatePercent() {
+setPercentImage() {
     name=$1; percent=$2;
     cp $IMAGEDIR/$percent$IMAGEEXT $CURDIR/$name-current.png
 }

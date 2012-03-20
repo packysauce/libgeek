@@ -1,5 +1,7 @@
-GEEKTOOLDIR=~/.geektool
-IMGDIR=$GEEKTOOLDIR/circle_percent_images
 
-percent=$(vm_stat | grep -v Mach | head -n 5 | perl -ne 'm/(\d+)/; print "$1\n";' | xargs ./memcalc)
-cp $IMGDIR/$percent.png $IMGDIR/current.png
+. $LIBGEEK/libgeek
+
+MYDIR=`getPluginDir meters/memory`
+
+percent=$(vm_stat | grep -v Mach | head -n 5 | perl -ne 'm/(\d+)/; print "$1\n";' | xargs $MYDIR/bin/memcalc)
+setPercentImage "memory-meter" $percent

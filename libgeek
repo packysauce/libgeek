@@ -5,6 +5,31 @@ BINDIR=$LIBGEEK/bin
 PLUGDIR=$LIBGEEK/plugins
 GEEKEXT=.geek
 
+isPlugin() {
+    [[ -f $PLUGDIR/$1$GEEKEXT ]]
+}
+
+getPlugin() {
+    isPlugin $1
+    [[ $? -eq 0 ]] && echo $PLUGDIR/$1$GEEKEXT
+}
+
+getPluginDir() {
+    dirname `getPlugin $1`
+}
+
+require() {
+    retcode=0
+    while [[ -n $1 ]]; do
+        if [[ ! -e $LIBDIR/$1$GEEKEXT ]]; then
+            echo "Required library is missing: $1"
+            retcode=`expr $retcode + 1`
+        fi
+        shift
+    done
+    [[ $retcode -eq 0 ]] || exit $retcode
+}
+
 if [[ -d $LIBDIR ]]; then 
     for lib in $LIBDIR/*$GEEKEXT; do
         . $lib

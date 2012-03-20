@@ -1,1 +1,6 @@
-export GEEK_NUM_CORES=`system_profiler SPHardwareDataType | grep Cores | perl -ne 'print +(split /:/,$_)[1];'`
+
+getNumberOfCPUs() {
+    if [[ `uname` = "Darwin" ]]; then
+        return `system_profiler SPHardwareDataType | grep Cores | perl -ne 'print +(split /:/,$_)[1];'`
+    fi
+}
