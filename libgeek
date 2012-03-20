@@ -36,9 +36,5 @@ if [[ -d $LIBDIR ]]; then
     done
 fi
 
-if [[ $# -gt 0 ]]; then
-    while [[ -n $1 ]] ; do
-        [[ -x $PLUGDIR/$1$GEEKEXT ]] && $PLUGDIR/$1$GEEKEXT || echo "No script"
-        shift
-    done
-fi
+pname=$1; shift;
+[[ -x $PLUGDIR/$pname$GEEKEXT ]] && $PLUGDIR/$pname$GEEKEXT $@ || echo "No script"

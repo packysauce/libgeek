@@ -1,0 +1,5 @@
+. $LIBGEEK/libgeek
+
+cputime=`getPluginDir meters/cpu`/bin/cputime
+
+echo $cputime
