@@ -1,0 +1,19 @@
+#!/bin/sh
+
+LIBDIR=$LIBGEEK/lib
+BINDIR=$LIBGEEK/bin
+PLUGDIR=$LIBGEEK/plugins
+GEEKEXT=.geek
+
+if [[ -d $LIBDIR ]]; then 
+    for lib in $LIBDIR/*$GEEKEXT; do
+        . $lib
+    done
+fi
+
+if [[ $# -gt 0 ]]; then
+    while [[ -n $1 ]] ; do
+        [[ -x $PLUGDIR/$1$GEEKEXT ]] && $PLUGDIR/$1$GEEKEXT || echo "No script"
+        shift
+    done
+fi
