@@ -1,7 +1,16 @@
-
 . $LIBGEEK/libgeek
+
+require percent
 
 MYDIR=`getPluginDir meters/memory`
 
-percent=$(vm_stat | grep -v Mach | head -n 5 | perl -ne 'm/(\d+)/; print "$1\n";' | xargs $MYDIR/bin/memcalc)
-setPercentImage "memory-meter" $percent
+rawpercent=$(vm_stat | grep -v Mach | head -n 5 | perl -ne 'm/(\d+)/; print "$1\n";' | xargs $MYDIR/bin/memcalc)
+
+percent=$(perl -e "print 1-$rawpercent,\"\n\";")
+
+if [[ $1 = "report" ]]; then
+    echo $percent
+else 
+    setPercentImage "memory-meter" $percent
+    echo Memory
+fi
