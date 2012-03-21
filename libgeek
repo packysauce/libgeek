@@ -21,20 +21,31 @@ getPluginDir() {
 require() {
     retcode=0
     while [[ -n $1 ]]; do
-        if [[ ! -e $LIBDIR/$1$GEEKEXT ]]; then
+        libpath=$LIBDIR/$1$GEEKEXT
+        if [[ ! -e $libpath ]]; then
             echo "Required library is missing: $1"
             retcode=`expr $retcode + 1`
+        else
+            . $libpath
         fi
         shift
     done
     [[ $retcode -eq 0 ]] || exit $retcode
 }
 
-if [[ -d $LIBDIR ]]; then 
-    for lib in $LIBDIR/*$GEEKEXT; do
-        . $lib
-    done
-fi
+require core
 
-pname=$1; shift;
-[[ -x $PLUGDIR/$pname$GEEKEXT ]] && $PLUGDIR/$pname$GEEKEXT $@ || echo "No script"
+if [[ `basename $0` = "libgeek" ]]; then
+    if [[ $# -gt 0 ]]; then
+        pname=$1;
+        pathp=$PLUGDIR/$1$GEEKEXT;
+        shift
+
+        if isPlugin $pname; then
+            $PLUGDIR/$pname$GEEKEXT $@
+        else
+            echo "Unable to find plugin $pname"
+            exit 127
+        fi
+    fi
+fi
