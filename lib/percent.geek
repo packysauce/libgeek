@@ -4,7 +4,11 @@ IMAGEDIR=$LIBGEEK/share/circle-percent-images
 IMAGEEXT=.png
 CURDIR=/tmp
 
+getPercent() {
+    echo $1 | perl -ne "print int((\$_+.04)*100/5)*5"
+}
+
 setPercentImage() {
-    name=$1; percent=$2;
+    name=$1; percent=`getPercent $2`
     cp $IMAGEDIR/$percent$IMAGEEXT $CURDIR/$name-current.png
 }
