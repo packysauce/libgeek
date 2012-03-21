@@ -1,0 +1,24 @@
+. $LIBGEEK/libgeek
+
+require spotify
+
+query=$1; shift
+
+response="No property specified"
+case $query in
+    artist)
+        response=`getCurrentArtist`
+        ;;
+    album)
+        response=`getCurrentAlbum`
+        ;;
+    name)
+        response=`getCurrentTrack`
+        ;;
+    artwork)
+        response=""
+        getCurrentArtwork `getAbsolutePath $1`
+        ;;
+esac
+
+echo $response
