@@ -1,0 +1,36 @@
+#!/bin/sh
+
+tellSpotify() {
+    osascript <<EOF
+    tell application "Spotify"
+        set output to $1 of current track
+    end tell
+EOF
+}
+
+getCurrentTrack() {
+    tellSpotify name
+}
+
+getCurrentArtist() {
+    tellSpotify artist
+}
+
+getCurrentAlbum() {
+    tellSpotify album
+}
+
+getCurrentArtwork() {
+    if [[ $# -lt 1 ]]; then
+        echo "No path was specified"
+        exit 2
+    fi
+    osascript <<EOF
+    tell application "Spotify"
+        set art to artwork of current track
+    end tell
+    set art_file to "$1"
+    open for access art_file with write permission
+    write art to art_file
+EOF
+}
