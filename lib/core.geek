@@ -1,0 +1,10 @@
+#. $LIBGEEK/libgeek
+
+getAbsolutePath() {
+    cwd=`pwd`
+    file=$1
+    cd `dirname "$file"`
+    fullpath=`pwd`
+    cd "$cwd"
+    echo $fullpath/`basename "$file"` 
+}
