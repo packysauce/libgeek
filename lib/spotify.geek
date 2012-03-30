@@ -1,5 +1,12 @@
 #!/bin/sh
 
+isSpotifyRunning() {
+    ps ax | grep Spotify | grep -v grep > /dev/null
+    retval=$?
+    [[ $retval == 0 ]] && echo Yes || echo No;
+    return $retval
+}
+
 tellSpotify() {
     osascript <<EOF
     tell application "Spotify"
