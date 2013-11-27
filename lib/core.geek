@@ -1,4 +1,3 @@
-#. $LIBGEEK/libgeek
 
 getAbsolutePath() {
     cwd=`pwd`
@@ -7,4 +6,16 @@ getAbsolutePath() {
     fullpath=`pwd`
     cd "$cwd"
     echo $fullpath/`basename "$file"` 
+}
+
+export_json_vars() {
+  envs=$(python2.6 -c "import json,sys; [sys.stdout.writelines('|'.join(y)+'\n') for y in json.loads('$1').items()]")
+
+  oldifs=$IFS
+  for i in $envs; do
+    IFS=\|
+    z=($i)
+    eval ${z[0]}=${z[1]}
+  done
+  IFS=$oldifs
 }
