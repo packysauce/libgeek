@@ -2,9 +2,9 @@
 
 require spotify
 
-spotrun=`isSpotifyRunning`
+isSpotifyRunning
+spotrun=$?
 query=$1; shift
-
 response="No property specified"
 
 if [[ $spotrun -eq 0 ]]; then
@@ -24,14 +24,10 @@ if [[ $spotrun -eq 0 ]]; then
             ;;
     esac
 else
-    case $query in
-        name)
-            response="Spotify is not running"
-            ;;
-        *)
-            response=""
-            ;;
-    esac
+    if [[ $query == "artwork" ]]; then
+      rm $1
+    fi
+    response=""
 fi
 
 echo $response
