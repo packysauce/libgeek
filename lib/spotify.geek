@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 isSpotifyRunning() {
-    ps ax | grep Spotify | grep -v grep > /dev/null
-    retval=$?
-    [[ $retval == 0 ]] && echo Yes || echo No;
-    return $retval
+    ps ax | grep -v grep | grep -v SpotifyWeb | grep Spotify &>/dev/null
+    return $?
 }
 
 tellSpotify() {
