@@ -1,0 +1,36 @@
+. $LIBGEEK/libgeek
+
+require core
+
+cx=USD
+while getopts "c:" opt; do
+  case $opt in
+    c)
+      cx=$OPTARG
+      ;;
+    *)
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+query=$1; shift
+
+api_url="https://coinbase.com/api/v1/prices/spot_rate?currency=$cx"
+spot_rate=$(curl $api_url 2>/dev/null)
+
+echo_price() {
+  export_json_vars $spot_rate
+  echo $amount
+}
+
+case $query in
+  price)
+    echo_price
+    ;;
+  *)
+    echo "Unsupported action $query"
+    exit 1
+    ;;
+esac
